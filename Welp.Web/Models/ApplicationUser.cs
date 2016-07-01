@@ -12,5 +12,6 @@ namespace Welp.Web.Models
     {
      
         public int Age { get; set; }
+
     }
 }

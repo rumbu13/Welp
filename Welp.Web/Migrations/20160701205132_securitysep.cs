@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Welp.Web.Data.Migrations
+namespace Welp.Web.Migrations
 {
-    public partial class taglines : Migration
+    public partial class securitysep : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

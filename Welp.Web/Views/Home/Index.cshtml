@@ -1,5 +1,6 @@
-﻿@using Welp.Web.Controllers
-@model HomeView
+﻿@using Welp.Web.Models.PageViewModels
+
+@model HomeViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -110,4 +111,5 @@
         </ul>
     </div>
     <p>@Model.Greeting</p>
+    <p>@Model.TagLine</p>
 </div>

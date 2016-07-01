@@ -44,6 +44,9 @@ namespace Welp.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<WelpDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>( options =>
             {
                 options.Password.RequiredLength = Configuration.GetValue<int>("PasswordOptions:RequiredLength", 8);
@@ -54,6 +57,8 @@ namespace Welp.Web
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            
 
             services.AddMvc();
 
@@ -103,6 +108,7 @@ namespace Welp.Web
             app.UseIdentity();
 
             SeedUsersAndRolesAsync(app);
+            SeedData(app);
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -116,6 +122,9 @@ namespace Welp.Web
 
         public async void SeedUsersAndRolesAsync(IApplicationBuilder app)
         {
+            var _context = app.ApplicationServices.GetService<ApplicationDbContext>();
+            
+
             var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();            
             if (!await roleManager.RoleExistsAsync("admin"))
                 await roleManager.CreateAsync(new IdentityRole("admin"));
@@ -149,6 +158,12 @@ namespace Welp.Web
             if (!await userManager.IsInRoleAsync(user, "admin"))
                 await userManager.AddToRoleAsync(user, "admin");
 
+        }
+
+        public void SeedData(IApplicationBuilder app)
+        {
+            var _context = app.ApplicationServices.GetService<WelpDBContext>();
+            _context.SeedAll();
         }
     }
 }
