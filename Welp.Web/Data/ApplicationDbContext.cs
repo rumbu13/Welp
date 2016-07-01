@@ -10,10 +10,14 @@ namespace Welp.Web.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<TagLine> TagLines { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Welp.Web.Data;
 using Welp.Web.Models;
 using Welp.Web.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Welp.Web
 {
@@ -43,7 +44,14 @@ namespace Welp.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>( options =>
+            {
+                options.Password.RequiredLength = Configuration.GetValue<int>("PasswordOptions:RequiredLength", 8);
+                options.Password.RequireDigit = Configuration.GetValue<bool>("PasswordOptions:RequireDigit", true);
+                options.Password.RequireLowercase = Configuration.GetValue<bool>("PasswordOptions:RequireLowercase", true);
+                options.Password.RequireNonAlphanumeric = Configuration.GetValue<bool>("PasswordOptions:RequireNonAlphanumeric", true);
+                options.Password.RequireUppercase = Configuration.GetValue<bool>("PasswordOptions:RequireUppercase", true);
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -73,7 +81,28 @@ namespace Welp.Web
 
             app.UseStaticFiles();
 
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = "test",
+                AppSecret = "test"
+            });
+
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                ClientId = "test",
+                ClientSecret = "test"
+            });
+
+            app.UseTwitterAuthentication(new TwitterOptions()
+            {
+                ConsumerKey= "test",
+                ConsumerSecret = "test"
+            });
+        
+
             app.UseIdentity();
+
+            SeedUsersAndRolesAsync(app);
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -83,6 +112,43 @@ namespace Welp.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public async void SeedUsersAndRolesAsync(IApplicationBuilder app)
+        {
+            var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();            
+            if (!await roleManager.RoleExistsAsync("admin"))
+                await roleManager.CreateAsync(new IdentityRole("admin"));
+            if (!await roleManager.RoleExistsAsync("tech"))
+                await roleManager.CreateAsync(new IdentityRole("tech"));
+            if (!await roleManager.RoleExistsAsync("client"))
+                await roleManager.CreateAsync(new IdentityRole("client"));
+            if (!await roleManager.RoleExistsAsync("manager"))
+                await roleManager.CreateAsync(new IdentityRole("manager"));
+
+            var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
+
+            var user = await userManager.FindByEmailAsync("rumbu@rumbu.ro");
+            if (user == null)
+            {
+                user = new ApplicationUser() { UserName = "rumbu@rumbu.ro",  Email = "rumbu@rumbu.ro" };
+                var x = await userManager.CreateAsync(user, "changeme");                
+            }
+
+            if (!await userManager.IsInRoleAsync(user, "admin"))
+                await userManager.AddToRoleAsync(user, "admin");
+
+
+            user = await userManager.FindByEmailAsync("mihai.marincea@gmail.com");
+            if (user == null)
+            {
+                user = new ApplicationUser() { UserName = "mihai.marincea@gmail.com", Email = "mihai.marincea@gmail.com" };
+                var x = await userManager.CreateAsync(user, "changeme");
+            }
+
+            if (!await userManager.IsInRoleAsync(user, "admin"))
+                await userManager.AddToRoleAsync(user, "admin");
+
         }
     }
 }

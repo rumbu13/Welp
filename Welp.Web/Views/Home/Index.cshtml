@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Welp.Web.Controllers
+@model HomeView
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -106,4 +109,5 @@
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
     </div>
+    <p>@Model.Greeting</p>
 </div>
