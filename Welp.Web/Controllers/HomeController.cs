@@ -12,10 +12,10 @@ namespace Welp.Web.Controllers
     public class HomeController : Controller
     {
 
-        private WelpDBContext _context;
+        private ApplicationDbContext _context;
 
         //dependency injection pe context
-        public HomeController(WelpDBContext context)
+        public HomeController(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -11,5 +11,7 @@ namespace Welp.Web.Models.AccountViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public bool IsWelper { get; set; }
     }
 }

@@ -8,13 +8,18 @@ namespace Welp.Web.Models
 {
     public class TagLine
     {
-        [Key, Required]
+        [Key]
+        [Display(AutoGenerateField = false)]
         public int Id { get; set; }
 
-        [Required, StringLength(50, MinimumLength = 10)]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Textul este obligatoriu")]
+        [MaxLength(25, ErrorMessage = "Lungimea maximă a textului este de 25 de caractere")]
+        [Display(Name = "Text", Description = "Text afișat ca motto")]
         public string Text { get; set; }
 
-        [Required, Range(1, 100)]
+        [Required(ErrorMessage = "Probabilitatea este obligatorie")]
+        [Range(1, 100, ErrorMessage ="Probabilitatea trebuie să fir cuprinsă între 1 și 100")]
+        [Display(Name = "Probabilitate", Description = "Probabilitate de apariție a textului")]
         public int Probability { get; set; }
     }
 }

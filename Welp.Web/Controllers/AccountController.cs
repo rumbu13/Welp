@@ -89,8 +89,9 @@ namespace Welp.Web.Controllers
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register(bool isWelper = false, string returnUrl = null)
         {
+            ViewData["IsWelper"] = isWelper;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -100,9 +101,10 @@ namespace Welp.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, bool isWelper = false, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["IsWelper"] = isWelper;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -116,7 +118,11 @@ namespace Welp.Web.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    if (isWelper)
+                        await _userManager.AddToRoleAsync(user, "welper");
+                    else
+                        await _userManager.AddToRoleAsync(user, "client");
+                    _logger.LogInformation(3, "User created a new account with password and added to role {0}", isWelper ? "welper" : "client");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -154,7 +160,7 @@ namespace Welp.Web.Controllers
         // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(bool isWelper = false, string returnUrl = null, string remoteError = null)
         {
             if (remoteError != null)
             {
@@ -187,8 +193,9 @@ namespace Welp.Web.Controllers
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
+                ViewData["IsWelper"] = isWelper;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email, IsWelper = isWelper });
             }
         }
 
@@ -215,7 +222,8 @@ namespace Welp.Web.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        await _userManager.AddToRoleAsync(user, model.IsWelper ? "welper" : "client");
+                        _logger.LogInformation(6, "User created an account using {Name} provider. Added to role {Role}.", info.LoginProvider, model.IsWelper ? "welper": "client");
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -223,6 +231,7 @@ namespace Welp.Web.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["IsWelper"] = model.IsWelper;
             return View(model);
         }
 

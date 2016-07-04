@@ -44,9 +44,6 @@ namespace Welp.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<WelpDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<ApplicationUser, IdentityRole>( options =>
             {
                 options.Password.RequiredLength = Configuration.GetValue<int>("PasswordOptions:RequiredLength", 8);
@@ -107,7 +104,7 @@ namespace Welp.Web
 
             app.UseIdentity();
 
-            SeedUsersAndRolesAsync(app);
+            SeedUsersAndRolesAsync(app).Wait();
             SeedData(app);
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
@@ -120,7 +117,7 @@ namespace Welp.Web
             });
         }
 
-        public async void SeedUsersAndRolesAsync(IApplicationBuilder app)
+        public async Task SeedUsersAndRolesAsync(IApplicationBuilder app)
         {
             var _context = app.ApplicationServices.GetService<ApplicationDbContext>();
             
@@ -162,7 +159,7 @@ namespace Welp.Web
 
         public void SeedData(IApplicationBuilder app)
         {
-            var _context = app.ApplicationServices.GetService<WelpDBContext>();
+            var _context = app.ApplicationServices.GetService<ApplicationDbContext>();
             _context.SeedAll();
         }
     }

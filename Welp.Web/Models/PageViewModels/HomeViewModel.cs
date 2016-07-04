@@ -9,9 +9,9 @@ namespace Welp.Web.Models.PageViewModels
 {
     public class HomeViewModel
     {
-        private WelpDBContext _context;
+        private ApplicationDbContext _context;
 
-        public HomeViewModel(WelpDBContext context)
+        public HomeViewModel(ApplicationDbContext context)
         {
             _context = context;
         }
