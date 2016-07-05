@@ -218,5 +218,241 @@ namespace Welp.Web.Data
                 }
             }
         }
+
+
+
+        public void SeedServices()
+        {
+
+            if (!Services.Any())
+            {
+                //categoria din care face parte serviciul
+                var category = Categories.FirstOrDefault(c => c.Text == "Reparații calculatoare și suport tehnic");
+
+                //noul serviciu
+                var service = new WelpService()
+                {
+                    Title = "Reparație calculator și asistență",
+                    Description = "Dacă calculatorul tău este blocat, o aplicație refuză să pornească sau hard-disk-ul tău dă semne de oboseală, suntem gata să rezolvăm problema",
+                    Category = category,
+                    IncludedPrestations = String.Join(Environment.NewLine,
+                      "Diagnostic și rezolvare",
+                      "Verificare sistem",
+                      "Costul eventualelor piese de schimb nu este inclus în preț"),
+                    Price = 60,
+                    OnlineDiscount = 10,
+                    CanBePerformedOnline = true                                
+                };
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Nu pornește",
+                    CanBePerformedOnline = false,
+                    Description = "Calculatorul nu pornește",
+                    IncreaseOrDecreaseFixed = 30,
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Pornește dar se blochează",
+                    CanBePerformedOnline = false,
+                    Description = "Calculatorul pornește dar se blochează sau afișează un mesaj de eroare",
+                    IncreaseOrDecreaseFixed = 30,
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Face zgomot",
+                    CanBePerformedOnline = false,
+                    Description = "Calculatorul pornește dar se aud permanent zgomote",
+                    IncreaseOrDecreaseFixed = 30,
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Nu se conectează",
+                    CanBePerformedOnline = false,
+                    Description = "Nu se conectează la Internet sau alt echipament de rețea",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Nu se conectează",
+                    CanBePerformedOnline = false,
+                    Description = "Nu se conectează la Internet sau alt echipament de rețea",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Nu recunoaște un dispozitiv extern",
+                    CanBePerformedOnline = false,
+                    Description = "Nu detectează un dispozitiv pe care l-am conectat prin portul USB sau altă metodă",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Nu pot deschide o aplicație",
+                    CanBePerformedOnline = true,
+                    Description = "O aplicație pe care am instalat-o sau am descărcat-o refuză să pornescă",
+                });
+
+                //optiune dropdown
+                var opt = (new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Dropdown,
+                    Text = "Ce calculator aveți",
+                    Description = "Precizați tipul de calculator",
+                });
+
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Stație de lucru" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Laptop", IncreaseOrDecreaseFixed = 10});
+
+                service.Options.Add(opt);
+
+                //optiune dropdown
+                opt = (new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Dropdown,
+                    Text = "Ce sistem de operare aveți",
+                    Description = "Precizați sistemul de operare",
+                });
+
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Windows" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "OS X" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Linux", IncreaseOrDecreaseFixed = 30 });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "BSD", IncreaseOrDecreaseFixed = 25 });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Chrome OS" });
+
+                service.Options.Add(opt);
+
+                //optiune text
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Text,
+                    Text = "Altele",
+                    Description = "Spuneți-ne în câteva cuvinte care e problema",
+                });
+
+                //in final il adaugam la lista
+                Services.Add(service);
+
+                //al doilea serviciu
+
+                service = new WelpService()
+                {
+                    Title = "Optimizare",
+                    Description = "Nimic nu este mai enervant decât un calculator care merge încet. Chiar și calculatoarele mai noi adună în timp fișiere inutile și aplicații nefolosite.",
+                    Category = category,
+                    IncludedPrestations = String.Join(Environment.NewLine,
+                      "Creșterea performanței",
+                      "Curățarea sistemului",
+                      "Defragmentarea discurilor"),
+                    Price = 40,
+                    OnlineDiscount = 10,
+                    CanBePerformedOnline = true
+                };
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Navigația merge greu",
+                    CanBePerformedOnline = true,
+                    Description = "Când accesați Internetul, paginile se încarcă greu",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Durează mult până pornește",
+                    CanBePerformedOnline = true,
+                    Description = "Așteptați mai mult timp decât ar trebui atunci când porniți calculatorul",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Durează mult până se oprește",
+                    CanBePerformedOnline = true,
+                    Description = "Așteptați mai mult timp decât ar trebui atunci când opriți calculatorul",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Reacționează greu",
+                    CanBePerformedOnline = false,
+                    Description = "Calculatorul răspunde greu la comenzile de la tastatură sau mouse",
+                });
+
+                //optiune checkbox
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Checkbox,
+                    Text = "Copierea fișierelor durează mult",
+                    CanBePerformedOnline = false,
+                    Description = "Atunci când copiați fișiere de pe un dispozitiv, durează mai mult decât ar trebui",
+                });
+
+
+                //optiune dropdown
+                opt = (new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Dropdown,
+                    Text = "Ce calculator aveți",
+                    Description = "Precizați tipul de calculator",
+                });
+
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Stație de lucru" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Laptop", IncreaseOrDecreaseFixed = 10 });
+
+                service.Options.Add(opt);
+
+                //optiune dropdown
+                opt = (new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Dropdown,
+                    Text = "Ce sistem de operare aveți",
+                    Description = "Precizați sistemul de operare",
+                });
+
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Windows" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "OS X" });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Linux", IncreaseOrDecreaseFixed = 30 });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "BSD", IncreaseOrDecreaseFixed = 25 });
+                opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Chrome OS" });
+
+                service.Options.Add(opt);
+
+                //optiune text
+                service.Options.Add(new WelpServiceOption()
+                {
+                    Type = WelpServiceOptionType.Text,
+                    Text = "Altele",
+                    Description = "Spuneți-ne în câteva cuvinte care e problema",
+                });
+
+                //in final il adaugam la lista
+                Services.Add(service);
+
+            }
+        }
     }
 }
