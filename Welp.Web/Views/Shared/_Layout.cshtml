@@ -26,23 +26,73 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Welp.Web</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WELP</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("admin")) {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Date<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="TagLines" asp-action="">Motto-uri</a></li>
+                                    <li><a asp-area="" asp-controller="ServiceCategories" asp-action="">Categorii servicii</a></li>
+                                    <li><a asp-area="" asp-controller="Services" asp-action="">Servicii</a></li>
+                                    <li><a asp-area="" asp-controller="Counties" asp-action="">Județe</a></li>
+                                    <li><a asp-area="" asp-controller="Localities" asp-action="">Localități</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilizatori<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Clients" asp-action="">Clienți</a></li>
+                                    <li><a asp-area="" asp-controller="Welpers" asp-action="">Tehnicieni</a></li>
+                                    <li><a asp-area="" asp-controller="OtherUsers" asp-action="">Alte categorii</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comenzi<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">În așteptare</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">În desfășurare</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Finalizate</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Analiză<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Panou de control</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Cash flow</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi emise</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi primite</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top servicii</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top clienți</a></li>
+                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top tehnicieni</a></li>
+                                </ul>
+                            </li>
+                        }
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
-            </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Help">Asistență</a></li>
+                </ul>
+                
+</div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2016 - Welp.Web</p>
+            <p>&copy; @DateTime.Now.Year - Welp</p>
         </footer>
     </div>
 

@@ -1,6 +1,7 @@
-﻿@using Welp.Web.Models.PageViewModels
+﻿@using Welp.Web.Helpers
 
-@model HomeViewModel
+
+@inject IToolsService ToolsService
 
 @{
     ViewData["Title"] = "Home Page";
@@ -13,7 +14,7 @@
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
     </ol>
-    <div class="carousel-inner" role="listbox">
+    <div class="carousel-inner" role="listbox" >
         <div class="item active">
             <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
             <div class="carousel-caption" role="option">
@@ -110,6 +111,6 @@
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
     </div>
-    <p>@Model.Greeting</p>
-    <p>@Model.TagLine</p>
+    <p>@ToolsService.Greeting</p>
+    <p>@ToolsService.RandomTagLine</p>
 </div>

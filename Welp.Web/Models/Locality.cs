@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Welp.Web.Models
 {
+
     public class Locality
     {
         [Key]
@@ -23,7 +24,7 @@ namespace Welp.Web.Models
         public string Name { get; set; }
 
         [Display(Name = "Latitudine", Description = "Latitudine")]
-        [DisplayFormat(DataFormatString = "{0:F}")]
+        [DisplayFormat(DataFormatString = "{0:F}")]        
         public double Latitude { get; set; }
 
         [Display(Name = "Longitudine", Description = "Latitudine")]

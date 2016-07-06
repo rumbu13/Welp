@@ -8,8 +8,9 @@ namespace Welp.Web.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Adresa de e-mail este neapărat necesară")]
+        [EmailAddress(ErrorMessage = "Adresă de e-mail incorectă")]
+        [Display(Name = "E-mail", Description = "Adresa de poștă electronică")]
         public string Email { get; set; }
     }
 }

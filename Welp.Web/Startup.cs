@@ -13,6 +13,7 @@ using Welp.Web.Data;
 using Welp.Web.Models;
 using Welp.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Welp.Web.Helpers;
 
 namespace Welp.Web
 {
@@ -62,6 +63,11 @@ namespace Welp.Web
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddTransient<IToolsService, ToolsService>();
+            services.AddTransient<IUserManagerService, UserManagerService>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,49 +7,35 @@ using System.Threading.Tasks;
 
 namespace Welp.Web.Models
 {
-
-    public enum OrderState
-    {
-        InShoppingCart,
-        Ordered,
-        Payed,
-        Assigned,
-        InProgress,
-        Performed,
-        Rejected,
-        Reimbursed,
-        Accepted,
-        PayedToWelper,
-    }
-
-
-    public class Order
+    public class OrderItem
     {
         [Key]
         [Display(AutoGenerateField = false)]
         public int Id { get; set; }
 
-        public string ClientProfileId { get; set; }
+        [Display(AutoGenerateField = false)]
+        public int OrderId { get; set; }
 
-        [ForeignKey(nameof(ClientProfileId))]
-        [Required(ErrorMessage = "Clientul este obligatoriu")]
-        [Display(Name = "Client", Description = "Clientul care a solicitat serviciile")]
-        public Profile Client { get; set; }
-
+        [ForeignKey(nameof(OrderId))]
+        public Order Order { get; set; }
 
         public string WelperProfileId { get; set; }
+
+        [ForeignKey(nameof(WelperProfileId))]
+        [Required(ErrorMessage = "Tehnicianul este obligatoriu")]
+        [Display(Name = "Client", Description = "Tehnicianul care prestează serviciile")]
+        public Profile Client { get; set; }
 
         [Required(ErrorMessage = "Precizarea stării este obligatorie")]
         [Display(Name = "Stare", Description = "Starea în care se află comanda")]
         public OrderState State { get; set; }
 
         [Required(ErrorMessage = "Precizarea stării este obligatorie")]
-        [Display(Name = "Preț total", Description = "Prețul contractat")]
-        public decimal TotalPrice { get; set; }
+        [Display(Name = "Preț", Description = "Prețul contractat")]
+        public decimal Price { get; set; }
 
         [Display(Name = "La distanță", Description = "Indică dacă serviciile sunt prestate la distanță")]
         public bool IsOnline { get; set; }
-
 
         public int DeliveryAddressId { get; set; }
 
@@ -63,11 +49,9 @@ namespace Welp.Web.Models
         [Display(Name = "Adresa sursă", Description = "Adresa de unde sunt prestate serviciile")]
         public Address SourceAddress { get; set; }
 
-        public ICollection<OrderItem> Items { get; set; }
-
-        [Required(ErrorMessage = "Precizarea datei este obligatorie")]
-        [Display(Name = "Data solicitării", Description = "Data și ora când a fost solicitat serviciul")]
-        public DateTime RequestTimestamp { get; set; }
+        [Display(Name = "Notă", Description = "Gradul de satisfacție în prestarea serviciului")]
+        [Range(0, 5, ErrorMessage = "Gradul de satisfacție trebuie să fie între 0 și 5")]
+        public int Rating { get; set; }
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,10 +12,22 @@ namespace Welp.Web.Services
     // For more details see this link http://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Welp", "welp@welp.ro"));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = subject;
+            emailMessage.Body = new TextPart("plain") { Text = message };
+            using (var smtp = new SmtpClient())
+            {
+                smtp.LocalDomain = "welp.ro";
+                await smtp.ConnectAsync("mail.welp.ro", 25, MailKit.Security.SecureSocketOptions.Auto).ConfigureAwait(false);
+                await smtp.SendAsync(emailMessage).ConfigureAwait(false);
+                await smtp.DisconnectAsync(true).ConfigureAwait(false);
+            }
+            
+
         }
 
         public Task SendSmsAsync(string number, string message)

@@ -8,15 +8,17 @@ namespace Welp.Web.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Adresa de e-mail este neapărat necesară")]
+        [EmailAddress(ErrorMessage = "Adresă de e-mail incorectă")]
+        [Display(Name = "E-mail", Description = "Adresa de poștă electronică")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Parola este obligatorie")]
         [DataType(DataType.Password)]
+        [Display(Name = "Parola")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Ține-mă minte", Description = "Bifați dacă doriți să fiți autentificat automat")]
         public bool RememberMe { get; set; }
     }
 }

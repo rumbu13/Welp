@@ -8,20 +8,20 @@ namespace Welp.Web.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Adresa de e-mail este neapărat necesară")]
+        [EmailAddress(ErrorMessage = "Adresă de e-mail incorectă")]
+        [Display(Name = "E-mail", Description = "Adresa de poștă electronică")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} trebuie să aibă cel puțin {2} caractere și maximum {1} caractere.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Parola")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmare parolă")]
+        [Compare(nameof(Password), ErrorMessage = "Cele două parole introduse nu corespund.")]
         public string ConfirmPassword { get; set; }
     }
 }
