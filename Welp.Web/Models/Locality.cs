@@ -31,6 +31,8 @@ namespace Welp.Web.Models
         [DisplayFormat(DataFormatString = "{0:F}")]
         public double Longitude { get; set; }
 
-
+        public ICollection<Address> Addresses { get; set; }
+        public ICollection<ClientInvoice> ClientInvoices { get; set; }
+        public ICollection<WelperInvoice> WelperInvoices { get; set; }
     }
 }

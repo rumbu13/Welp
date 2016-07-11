@@ -49,17 +49,5 @@ namespace Welp.Web.Models
         [Display(Name = "Adresă principală", Description = "Indică faptul că aceasta este adresa principală de contact")]
         public bool IsDefault { get; set; }
 
-        [Display(Name = "De la", Description = "Indică disponibilitatea începând cu ora precizată")]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm}")]
-        public DateTime AvailableFrom { get; set; }
-
-        [Display(Name = "Până la", Description = "Indică disponibilitatea până la ora precizată")]
-        [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm}")]
-        public DateTime AvailableTo { get; set; }
-
-
-
     }
 }

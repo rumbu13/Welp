@@ -14,9 +14,19 @@ using Welp.Web.Models;
 using Welp.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Welp.Web.Helpers;
+using Microsoft.Extensions.Options;
+using NonFactors.Mvc.Grid;
 
 namespace Welp.Web
-{
+{ 
+    public class AccountSetting
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+    }
+
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -56,7 +66,10 @@ namespace Welp.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            
+            services.AddOptions();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<List<AccountSetting>>(Configuration.GetSection("DefaultAccounts"));
+
 
             services.AddMvc();
 
@@ -91,21 +104,28 @@ namespace Welp.Web
 
             app.UseFacebookAuthentication(new FacebookOptions()
             {
-                AppId = "test",
-                AppSecret = "test"
+                AppId = Configuration.GetValue<string>("FacebookData:AppId"),
+                AppSecret = Configuration.GetValue<string>("FacebookData:AppSecret")
             });
-
             app.UseGoogleAuthentication(new GoogleOptions()
             {
-                ClientId = "test",
-                ClientSecret = "test"
+                ClientId = Configuration.GetValue<string>("GoogleData:ClientId"),
+                ClientSecret = Configuration.GetValue<string>("GoogleData:ClientSecret"),
             });
 
             app.UseTwitterAuthentication(new TwitterOptions()
             {
-                ConsumerKey= "test",
-                ConsumerSecret = "test"
+                ConsumerKey= Configuration.GetValue<string>("TwitterData:ConsumerKey"),
+                ConsumerSecret = Configuration.GetValue<string>("TwitterData:ConsumerSecret"),
             });
+
+            app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
+            {
+                ClientId = Configuration.GetValue<string>("MicrosoftData:ClientId"),
+                ClientSecret = Configuration.GetValue<string>("MicrosoftData:ClientSecret"),
+            });
+
+           
         
 
             app.UseIdentity();
@@ -131,8 +151,8 @@ namespace Welp.Web
             var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();            
             if (!await roleManager.RoleExistsAsync("admin"))
                 await roleManager.CreateAsync(new IdentityRole("admin"));
-            if (!await roleManager.RoleExistsAsync("tech"))
-                await roleManager.CreateAsync(new IdentityRole("tech"));
+            if (!await roleManager.RoleExistsAsync("welper"))
+                await roleManager.CreateAsync(new IdentityRole("welper"));
             if (!await roleManager.RoleExistsAsync("client"))
                 await roleManager.CreateAsync(new IdentityRole("client"));
             if (!await roleManager.RoleExistsAsync("manager"))
@@ -140,26 +160,21 @@ namespace Welp.Web
 
             var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
 
-            var user = await userManager.FindByEmailAsync("rumbu@rumbu.ro");
-            if (user == null)
+            var defaultAccounts = app.ApplicationServices.GetRequiredService<IOptions<List<AccountSetting>>>().Value;
+
+            foreach (var account in defaultAccounts)
             {
-                user = new ApplicationUser() { UserName = "rumbu@rumbu.ro",  Email = "rumbu@rumbu.ro" };
-                var x = await userManager.CreateAsync(user, "changeme");                
+                var user = await userManager.FindByEmailAsync(account.UserName);
+                if (user == null)
+                {
+                    user = new ApplicationUser() { UserName = account.UserName, Email = account.UserName };
+                    var x = await userManager.CreateAsync(user, account.Password);
+                    if (!await userManager.IsInRoleAsync(user, account.Role))
+                        await userManager.AddToRoleAsync(user, account.Role);
+                }
             }
 
-            if (!await userManager.IsInRoleAsync(user, "admin"))
-                await userManager.AddToRoleAsync(user, "admin");
-
-
-            user = await userManager.FindByEmailAsync("mihai.marincea@gmail.com");
-            if (user == null)
-            {
-                user = new ApplicationUser() { UserName = "mihai.marincea@gmail.com", Email = "mihai.marincea@gmail.com" };
-                var x = await userManager.CreateAsync(user, "changeme");
-            }
-
-            if (!await userManager.IsInRoleAsync(user, "admin"))
-                await userManager.AddToRoleAsync(user, "admin");
+          
 
         }
 

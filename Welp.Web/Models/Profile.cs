@@ -21,7 +21,7 @@ namespace Welp.Web.Models
         [Display(Name = "Nume", Description = "Numele de familie")]
         public string LastName { get; set; }
 
-        [MaxLength(40, ErrorMessage = "Lungimea maximă a telefonului este de 40 de caractere")]
+        [MaxLength(40, ErrorMessage = "Lungimea maximă a numărului de telefon este de 40 de caractere")]
         [Display(Name = "Telefon", Description = "Telefonul de contact")]
         public string PhoneNo { get; set; }
 
@@ -32,5 +32,23 @@ namespace Welp.Web.Models
         public byte[] Picture { get; set; }
         
         public ICollection<Address> Addresses { get; set; }
+
+        public ICollection<InvoiceData> InvoiceDatas { get; set; }
+
+        [Display(Name = "Latitudine", Description = "Ultima latitudine la care a fost prezent utilizatorul")]
+        public double LastKnownLatitude { get; set; }
+
+        [Display(Name = "Longitudine", Description = "Ultima longitudine la care a fost prezent utilizatorul")]
+        public double LastKnownLongitude { get; set; }
+
+        [Display(Name = "Moment", Description = "Ultimul moment la care a fost actualizată locația utilizatorului")]
+        public DateTime LastKnownTimestamp { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<ClientInvoice> ClientInvoices { get; set; }
+        public ICollection<WelperInvoice> WelperInvoices { get; set; }
+        public ICollection<OrderItem> Jobs { get; set; }
+
+
     }
 }

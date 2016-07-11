@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "262676ce8121d8045de0c25b77acaab98d85244b"
+    "signature": "2a20b7c6e2b326af7b84d0afda7a2b45e2e5951f"
   },
   "compilationOptions": {
     "defines": [
@@ -43,7 +43,8 @@
           "Microsoft.AspNetCore.Authentication": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
           "BundlerMinifier.Core": "2.1.258",
-          "MailKit": "1.4.0"
+          "MailKit": "1.4.0",
+          "NonFactors.Grid.Core.Mvc6": "1.0.0"
         },
         "runtime": {
           "Welp.Web.dll": {}
@@ -1847,6 +1848,18 @@
         },
         "compile": {
           "lib/netstandard1.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "NonFactors.Grid.Core.Mvc6/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0",
+          "System.Linq.Queryable": "4.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.6/Mvc.Grid.Core.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.6/Mvc.Grid.Core.dll": {}
         }
       },
       "NuGet.Common/3.5.0-beta2-1484": {
@@ -4637,6 +4650,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-U82mHQSKaIk+lpSVCbWYKNavmNH1i5xrExDEquU1i6I5pV6UMOqRnJRSlKO3cMPfcpp0RgDY+8jUXHdQ4IfXvw=="
+    },
+    "NonFactors.Grid.Core.Mvc6/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-beSjFJP6zwYFE6avsG0LYPPkK3e+NeXt+AtiGv03a3cdLlXOfGLwI8hz/13OhqHCsDWPBP6S3veZkFB3wtDxZw=="
     },
     "NuGet.Common/3.5.0-beta2-1484": {
       "type": "package",

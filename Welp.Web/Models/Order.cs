@@ -8,19 +8,7 @@ using System.Threading.Tasks;
 namespace Welp.Web.Models
 {
 
-    public enum OrderState
-    {
-        InShoppingCart,
-        Ordered,
-        Payed,
-        Assigned,
-        InProgress,
-        Performed,
-        Rejected,
-        Reimbursed,
-        Accepted,
-        PayedToWelper,
-    }
+    
 
 
     public class Order
@@ -35,13 +23,7 @@ namespace Welp.Web.Models
         [Required(ErrorMessage = "Clientul este obligatoriu")]
         [Display(Name = "Client", Description = "Clientul care a solicitat serviciile")]
         public Profile Client { get; set; }
-
-
-        public string WelperProfileId { get; set; }
-
-        [Required(ErrorMessage = "Precizarea stării este obligatorie")]
-        [Display(Name = "Stare", Description = "Starea în care se află comanda")]
-        public OrderState State { get; set; }
+       
 
         [Required(ErrorMessage = "Precizarea stării este obligatorie")]
         [Display(Name = "Preț total", Description = "Prețul contractat")]
@@ -49,19 +31,6 @@ namespace Welp.Web.Models
 
         [Display(Name = "La distanță", Description = "Indică dacă serviciile sunt prestate la distanță")]
         public bool IsOnline { get; set; }
-
-
-        public int DeliveryAddressId { get; set; }
-
-        [ForeignKey(nameof(DeliveryAddressId))]
-        [Display(Name = "Adresa", Description = "Adresa unde sunt prestate serviciile")]
-        public Address DeliveryAddress { get; set; }
-
-        public int SourceAddressId { get; set; }
-
-        [ForeignKey(nameof(SourceAddressId))]
-        [Display(Name = "Adresa sursă", Description = "Adresa de unde sunt prestate serviciile")]
-        public Address SourceAddress { get; set; }
 
         public ICollection<OrderItem> Items { get; set; }
 

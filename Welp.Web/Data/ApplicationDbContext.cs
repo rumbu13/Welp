@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Welp.Web.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Welp.Web.Data
 {
@@ -27,6 +28,22 @@ namespace Welp.Web.Data
         public DbSet<County> Counties { get; set; }
         public DbSet<Locality> Localities { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStateHistory> OrderStates { get; set; }
+
+        public DbSet<ClientInvoice> ClientInvoices { get; set; }
+        public DbSet<ClientInvoiceItem> ClientInvoiceItems { get; set; }
+        public DbSet<ClientInvoiceStateHistory> ClientInvoiceStates { get; set; }
+
+        public DbSet<WelperInvoice> WelperInvoices { get; set; }
+        public DbSet<WelperInvoiceItem> WelperInvoiceItems { get; set; }
+        public DbSet<WelperInvoiceStateHistory> WelperInvoiceStates{ get; set; }
+
+
+        public DbSet<FAQCategory> FAQCategories { get; set; }
+        public DbSet<FAQ> FAQs { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +51,193 @@ namespace Welp.Web.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<ClientInvoice>()
+                .HasOne<Locality>(ci => ci.ProviderLocality)
+                .WithMany(l => l.ClientInvoices)
+                .HasForeignKey(l => l.ProviderLocalityId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<WelperInvoice>()
+                .HasOne<InvoiceData>(wi => wi.InvoiceData)
+                .WithMany()
+                .HasForeignKey(wi => wi.InvoiceDataId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<OrderItem>()
+                .HasOne<Profile>(oi => oi.Welper)
+                .WithMany()
+                .HasForeignKey(oi => oi.WelperProfileId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<Locality>()
+            //    .HasOne<County>(l => l.County)
+            //    .WithMany(c => c.Localities)
+            //    .HasForeignKey(l => l.CountyId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelpService>()
+            //    .HasOne<WelpServiceCategory>(s => s.Category)
+            //    .WithMany(c => c.Services)
+            //    .HasForeignKey(c => c.WelpServiceCategoryId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelpService>()
+            //    .HasMany<WelpServiceOption>(s => s.Options)
+            //    .WithOne(o => o.Service)
+            //    .HasForeignKey(o => o.WelpServiceId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<WelpServiceOption>()
+            //    .HasMany<WelpServiceOptionDropItem>(o => o.DropDownItems)
+            //    .WithOne(d => d.Option)
+            //    .HasForeignKey(d => d.WelpServiceOptionId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<Profile>()
+            //    .HasMany<Address>(p => p.Addresses)
+            //    .WithOne(a => a.Profile)
+            //    .HasForeignKey(a => a.ProfileId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<Profile>()
+            //    .HasMany<InvoiceData>(p => p.InvoiceDatas)
+            //    .WithOne(a => a.Profile)
+            //    .HasForeignKey(a => a.ProfileId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<Address>()
+            //    .HasOne<Locality>(a => a.Locality)
+            //    .WithMany(l => l.Addresses)
+            //    .HasForeignKey(a => a.LocalityId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<FAQ>()
+            //    .HasOne<FAQCategory>(f => f.Category)
+            //    .WithMany(c => c.FAQs)
+            //    .HasForeignKey(f => f.CategoryId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<Order>()
+            //    .HasOne<Profile>(o => o.Client)
+            //    .WithMany(c => c.Orders)
+            //    .HasForeignKey(o => o.ClientProfileId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<Order>()
+            //    .HasMany<OrderItem>(o => o.Items)
+            //    .WithOne(i => i.Order)
+            //    .HasForeignKey(i => i.OrderId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<OrderItem>()
+            //    .HasMany<OrderStateHistory>(o => o.History)
+            //    .WithOne(h => h.OrderItem)
+            //    .HasForeignKey(h => h.OrderItemId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<OrderItem>()
+            //    .HasOne<Profile>(o => o.Welper)
+            //    .WithMany(p => p.Jobs)
+            //    .HasForeignKey(o => o.WelperProfileId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<ClientInvoice>()
+            //    .HasMany<ClientInvoiceItem>(i => i.InvoiceItems)
+            //    .WithOne(i => i.Invoice)
+            //    .HasForeignKey(i => i.InvoiceId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<ClientInvoice>()
+            //    .HasMany<ClientInvoiceStateHistory>(i => i.History)
+            //    .WithOne(h => h.Invoice)
+            //    .HasForeignKey(h => h.InvoiceId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<ClientInvoice>()
+            //    .HasOne<Profile>(i => i.Client)
+            //    .WithMany(p => p.ClientInvoices)
+            //    .HasForeignKey(i => i.ClientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            ////builder.Entity<ClientInvoice>()
+            ////    .HasOne<ClientInvoice>(i => i.ReverseInvoice)
+            ////    .WithOne(i => i.ReverseInvoice)
+            ////    .HasForeignKey<ClientInvoice>(i => i.ReverseInvoiceId)                
+            ////    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<ClientInvoice>()
+            //    .HasOne<InvoiceData>(i => i.InvoiceData)
+            //    .WithMany(i => i.ClientInvoices)
+            //    .HasForeignKey(i => i.InvoiceDataId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<ClientInvoice>()
+            //    .HasOne<Locality>(i => i.ProviderLocality)
+            //    .WithMany(l => l.ClientInvoices)
+            //    .HasForeignKey(i => i.ProviderLocalityId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<ClientInvoiceItem>()
+            //    .HasOne<OrderItem>(i => i.OrderItem)
+            //    .WithOne(o => o.ClientInvoiceItem)
+            //    .HasForeignKey<OrderItem>(o => o.ClientInvoiceItemId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<OrderItem>()
+            //    .HasOne<ClientInvoiceItem>(o => o.ClientInvoiceItem)
+            //    .WithOne(i => i.OrderItem)
+            //    .HasForeignKey<ClientInvoiceItem>(i => i.OrderItemId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelperInvoice>()
+            //   .HasMany<WelperInvoiceItem>(i => i.InvoiceItems)
+            //   .WithOne(i => i.Invoice)
+            //   .HasForeignKey(i => i.InvoiceId)
+            //   .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<WelperInvoice>()
+            //    .HasMany<WelperInvoiceStateHistory>(i => i.History)
+            //    .WithOne(h => h.Invoice)
+            //    .HasForeignKey(h => h.InvoiceId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<WelperInvoice>()
+            //    .HasOne<Profile>(i => i.Welper)
+            //    .WithMany(p => p.WelperInvoices)
+            //    .HasForeignKey(i => i.WelperId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelperInvoice>()
+            //    .HasOne<WelperInvoice>(i => i.ReverseInvoice)
+            //    .WithOne(i => i.ReverseInvoice)
+            //    .HasForeignKey<WelperInvoice>(i => i.ReverseInvoiceId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelperInvoice>()
+            //    .HasOne<InvoiceData>(i => i.InvoiceData)
+            //    .WithMany(i => i.WelperInvoices)
+            //    .HasForeignKey(i => i.InvoiceDataId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelperInvoice>()
+            //    .HasOne<Locality>(i => i.ClientLocality)
+            //    .WithMany(l => l.WelperInvoices)
+            //    .HasForeignKey(i => i.ClientLocalityId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<WelperInvoiceItem>()
+            //    .HasOne<OrderItem>(i => i.OrderItem)
+            //    .WithOne(o => o.WelperInvoiceItem)
+            //    .HasForeignKey<OrderItem>(o => o.WelperInvoiceItemId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<OrderItem>()
+            //    .HasOne<WelperInvoiceItem>(o => o.WelperInvoiceItem)
+            //    .WithOne(i => i.OrderItem)
+            //    .HasForeignKey<WelperInvoiceItem>(i => i.OrderItemId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
         }
 
         public void SeedAll()
@@ -41,11 +245,11 @@ namespace Welp.Web.Data
             
             SeedTagLines();
             SeedCategories();
-            SeedCounties();
-            SaveChanges();
-            SeedLocalities();
-            SaveChanges();
             SeedProfiles().Wait();
+            SaveChanges();
+            SeedFAQCategories();
+            SaveChanges();
+            SeedFAQs();
             SaveChanges();
         }
 
@@ -82,44 +286,9 @@ namespace Welp.Web.Data
         }
 
 
-        public void SeedCounties()
-        {
-            if (!Counties.Any())
-            {
-                Counties.AddRange(
-                    new County() { Name = "București"},
-                    new County() { Name = "Ilfov" }
-                    );
-            }
-        }
 
 
-        public void SeedLocalities()
-        {
-            if (!Localities.Any())
-            {
-                var county = Counties.FirstOrDefault(c => c.Name == "București");
-                Localities.AddRange(
-                    new Locality() { Name = "București, sector 1", County = county, Latitude = 44.4879727, Longitude = 25.9770370 },
-                    new Locality() { Name = "București, sector 2", County = county, Latitude = 44.4596066, Longitude = 26.1140066 },
-                    new Locality() { Name = "București, sector 3", County = county, Latitude = 44.4181612, Longitude = 26.1254993 },
-                    new Locality() { Name = "București, sector 4", County = county, Latitude = 44.3818932, Longitude = 26.0901256 },
-                    new Locality() { Name = "București, sector 5", County = county, Latitude = 44.4036918, Longitude = 26.0121403 },
-                    new Locality() { Name = "București, sector 6", County = county, Latitude = 44.4428908, Longitude = 25.9833857 }
-                    );
-
-                county = Counties.FirstOrDefault(c => c.Name == "Ilfov");
-                Localities.AddRange(
-                    new Locality() { Name = "Voluntari", County = county, Latitude = 44.5092556, Longitude = 26.1219581 },
-                    new Locality() { Name = "Popești - Leordeni", County = county, Latitude = 44.3711727, Longitude = 26.1579426 },
-                    new Locality() { Name = "Dobroești", County = county, Latitude = 44.4543766, Longitude = 26.1694805 },
-                    new Locality() { Name = "Roșu", County = county, Latitude = 44.4495432, Longitude = 25.9916085 },
-                    new Locality() { Name = "Chiajna", County = county, Latitude = 44.4538238, Longitude = 25.963955 },
-                    new Locality() { Name = "Moara Vlăsiei", County = county, Latitude = 44.6412579, Longitude = 26.1993395 }
-                    );
-
-            }
-        }
+      
 
         public async Task SeedProfiles()
         {
@@ -143,8 +312,6 @@ namespace Welp.Web.Data
                     {
                         Profile = profile,
                         Contact = "Răzvan Ștefănescu",
-                        AvailableFrom = new DateTime(1, 1, 1, 19, 0, 0),
-                        AvailableTo = new DateTime(1, 1, 1, 8, 0, 0),
                         IsDefault = true,
                         Locality = locality,
                         Text = "Șos. Ștefan cel Mare nr. 48, bl. 35A, sc. A, et. 2, ap. 7",
@@ -156,8 +323,6 @@ namespace Welp.Web.Data
                     {
                         Profile = profile,
                         Contact = "Răzvan Ștefănescu",
-                        AvailableFrom = new DateTime(1, 1, 1, 9, 0, 0),
-                        AvailableTo = new DateTime(1, 1, 1, 18, 0, 0),
                         IsDefault = true,
                         Locality = locality,
                         Text = "Bd. Dimitrie Pompeiu nr. 6E, et. 5",
@@ -187,8 +352,6 @@ namespace Welp.Web.Data
                     {
                         Profile = profile,
                         Contact = "Mihai Marincea",
-                        AvailableFrom = new DateTime(1, 1, 1, 19, 0, 0),
-                        AvailableTo = new DateTime(1, 1, 1, 8, 0, 0),
                         IsDefault = true,
                         Locality = locality,
                         Text = "Str. Vlad Județul nr. 8, bl. V11",
@@ -203,8 +366,6 @@ namespace Welp.Web.Data
                     {
                         Profile = profile,
                         Contact = "Mihai Marincea",
-                        AvailableFrom = new DateTime(1, 1, 1, 9, 0, 0),
-                        AvailableTo = new DateTime(1, 1, 1, 18, 0, 0),
                         IsDefault = true,
                         Locality = locality,
                         Text = "Bd. Dimitrie Pompeiu nr. 6E, et. 5",
@@ -452,6 +613,72 @@ namespace Welp.Web.Data
                 //in final il adaugam la lista
                 Services.Add(service);
 
+            }
+        }
+
+
+        public void SeedFAQCategories()
+        {
+            if (!FAQCategories.Any())
+            {
+                FAQCategories.AddRange(
+                    new FAQCategory { Text = "Cont", Icon = "glyphicon glyphicon-user" },
+                    new FAQCategory { Text = "Plăți", Icon = "glyphicon glyphicon-credit-card" },
+                    new FAQCategory { Text = "Asistență", Icon = "glyphicon glyphicon-question-sign" },
+                    new FAQCategory { Text = "Servicii", Icon = "glyphicon glyphicon-shopping-cart" }
+                    );
+            }
+        }
+
+
+        public void SeedFAQs()
+        {
+            if (!FAQs.Any())
+            {
+                var category = FAQCategories.FirstOrDefault(f => f.Text == "Cont");
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "Cum îmi actualizez datele din cont?",
+                    Answer = "Apăsați pe numele dvs. în colțul din dreapta sus."
+                });
+
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "Cum îmi schimb parola?",
+                    Answer = "Apăsați pe numele dvs. în colțul din dreapta sus."
+                });
+
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "Contul meu a fost suspendat. De ce?",
+                    Answer = "Motivul este precizat atunci când vă autentificați. Contactați-ne pentru mai multe detalii."
+                });
+
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "Cum îmi șterg contul?",
+                    Answer = "Nu ne-am gândit la asta pâna acum."
+                });
+
+                category = FAQCategories.FirstOrDefault(f => f.Text == "Plăți");
+
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "De ce suma din extrasul de cont nu corespunde cu serviciul contractat?",
+                    Answer = "Nu știm. Vorbiți la bancă."
+                });
+
+                FAQs.Add(new FAQ()
+                {
+                    Category = category,
+                    Question = "Pot obține ceva gratis de la voi?",
+                    Answer = "Depinde."
+                });
             }
         }
     }

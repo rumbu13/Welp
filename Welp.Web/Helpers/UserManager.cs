@@ -51,7 +51,11 @@ namespace Welp.Web.Helpers
             if (id != null)
             {
                 var profile = _context.Profiles.FirstOrDefault(p => p.Id == id);
-                return profile != null ? profile.FirstName : _userManager.GetUserName(principal);               
+                var name = profile != null ? profile.FirstName : _userManager.GetUserName(principal);
+                if (name != null && name.Contains(' '))
+                    return name.Substring(0, name.IndexOf(' '));
+                else
+                    return name;
             }
             return null;
         }

@@ -19,16 +19,28 @@ namespace Welp.Web.Models
         [ForeignKey(nameof(OrderId))]
         public Order Order { get; set; }
 
+        [Display(AutoGenerateField = false)]
+        public int? ClientInvoiceItemId { get; set; }
+
+        [ForeignKey(nameof(ClientInvoiceItemId))]
+        public ClientInvoiceItem ClientInvoiceItem { get; set; }
+
+        [Display(AutoGenerateField = false)]
+        public int? WelperInvoiceItemId { get; set; }
+
+        [ForeignKey(nameof(WelperInvoiceItemId))]
+        public WelperInvoiceItem WelperInvoiceItem { get; set; }
+
         public string WelperProfileId { get; set; }
 
         [ForeignKey(nameof(WelperProfileId))]
         [Required(ErrorMessage = "Tehnicianul este obligatoriu")]
-        [Display(Name = "Client", Description = "Tehnicianul care prestează serviciile")]
-        public Profile Client { get; set; }
+        [Display(Name = "Tehnician", Description = "Tehnicianul care prestează serviciile")]
+        public Profile Welper { get; set; }
 
         [Required(ErrorMessage = "Precizarea stării este obligatorie")]
         [Display(Name = "Stare", Description = "Starea în care se află comanda")]
-        public OrderState State { get; set; }
+        public OrderState LastState { get; set; }
 
         [Required(ErrorMessage = "Precizarea stării este obligatorie")]
         [Display(Name = "Preț", Description = "Prețul contractat")]
@@ -37,21 +49,26 @@ namespace Welp.Web.Models
         [Display(Name = "La distanță", Description = "Indică dacă serviciile sunt prestate la distanță")]
         public bool IsOnline { get; set; }
 
-        public int DeliveryAddressId { get; set; }
 
-        [ForeignKey(nameof(DeliveryAddressId))]
         [Display(Name = "Adresa", Description = "Adresa unde sunt prestate serviciile")]
-        public Address DeliveryAddress { get; set; }
+        public string DeliveryAddress { get; set; }
 
-        public int SourceAddressId { get; set; }
+        [Display(Name = "Adresa sursă", Description = "Adresa de unde sunt prestate serviciile")]       
+        public string SourceAddress { get; set; }
 
-        [ForeignKey(nameof(SourceAddressId))]
-        [Display(Name = "Adresa sursă", Description = "Adresa de unde sunt prestate serviciile")]
-        public Address SourceAddress { get; set; }
+        public double DeliveryLatitude { get; set; }
+        public double DeliveryLongitude { get; set; }
+
+        public double SourceLatitude { get; set; }
+        public double SourceLongitude { get; set; }
 
         [Display(Name = "Notă", Description = "Gradul de satisfacție în prestarea serviciului")]
         [Range(0, 5, ErrorMessage = "Gradul de satisfacție trebuie să fie între 0 și 5")]
         public int Rating { get; set; }
+
+        public ICollection<OrderStateHistory> History { get; set; }
+
+
 
     }
 }

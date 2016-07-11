@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Welp.Web.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Welp.Web.Controllers
 {
 
+   
     public class HomeController : Controller
     {
 
@@ -17,6 +19,7 @@ namespace Welp.Web.Controllers
             return View();
         }
 
+        
         public IActionResult Help()
         {
             ViewData["Message"] = "Your application description page.";

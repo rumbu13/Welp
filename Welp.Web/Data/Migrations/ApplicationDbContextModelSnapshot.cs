@@ -128,10 +128,6 @@ namespace Welp.Web.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("AvailableFrom");
-
-                    b.Property<DateTime>("AvailableTo");
-
                     b.Property<string>("Contact")
                         .IsRequired();
 
@@ -206,6 +202,107 @@ namespace Welp.Web.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClientId");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<DateTime>("DueDate");
+
+                    b.Property<int>("InvoiceDataId");
+
+                    b.Property<int>("LastState");
+
+                    b.Property<string>("ProviderAccount");
+
+                    b.Property<string>("ProviderAddress")
+                        .IsRequired();
+
+                    b.Property<string>("ProviderBank");
+
+                    b.Property<string>("ProviderContact")
+                        .IsRequired();
+
+                    b.Property<int>("ProviderLocalityId");
+
+                    b.Property<string>("ProviderName")
+                        .IsRequired();
+
+                    b.Property<string>("ProviderRegistrationNo");
+
+                    b.Property<string>("ProviderTaxCode");
+
+                    b.Property<int?>("ReverseInvoiceId");
+
+                    b.Property<decimal>("TotalGross");
+
+                    b.Property<decimal>("TotalNet");
+
+                    b.Property<decimal>("TotalVAT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("InvoiceDataId");
+
+                    b.HasIndex("ProviderLocalityId");
+
+                    b.HasIndex("ReverseInvoiceId");
+
+                    b.ToTable("ClientInvoices");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoiceItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<decimal>("Gross");
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<decimal>("Net");
+
+                    b.Property<int>("OrderItemId");
+
+                    b.Property<decimal>("VAT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("OrderItemId")
+                        .IsUnique();
+
+                    b.ToTable("ClientInvoiceItems");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoiceStateHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<int>("State");
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("ClientInvoiceStates");
+                });
+
             modelBuilder.Entity("Welp.Web.Models.County", b =>
                 {
                     b.Property<int>("Id")
@@ -217,6 +314,84 @@ namespace Welp.Web.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Counties");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.FAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer")
+                        .IsRequired();
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<string>("Question")
+                        .IsRequired();
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("FAQs");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.FAQCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Icon");
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FAQCategories");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.InvoiceData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Account");
+
+                    b.Property<string>("Address")
+                        .IsRequired();
+
+                    b.Property<string>("Bank");
+
+                    b.Property<string>("Contact")
+                        .IsRequired();
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<int>("LocalityId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("ProfileId");
+
+                    b.Property<string>("RegistrationNo");
+
+                    b.Property<string>("TaxCode");
+
+                    b.Property<bool>("VATFree");
+
+                    b.Property<bool>("VATOnCash");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocalityId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("InvoiceData");
                 });
 
             modelBuilder.Entity("Welp.Web.Models.Locality", b =>
@@ -240,6 +415,97 @@ namespace Welp.Web.Data.Migrations
                     b.ToTable("Localities");
                 });
 
+            modelBuilder.Entity("Welp.Web.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClientProfileId")
+                        .IsRequired();
+
+                    b.Property<bool>("IsOnline");
+
+                    b.Property<DateTime>("RequestTimestamp");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientProfileId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ClientInvoiceItemId");
+
+                    b.Property<string>("DeliveryAddress");
+
+                    b.Property<double>("DeliveryLatitude");
+
+                    b.Property<double>("DeliveryLongitude");
+
+                    b.Property<bool>("IsOnline");
+
+                    b.Property<int>("LastState");
+
+                    b.Property<int>("OrderId");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("ProfileId");
+
+                    b.Property<int>("Rating");
+
+                    b.Property<string>("SourceAddress");
+
+                    b.Property<double>("SourceLatitude");
+
+                    b.Property<double>("SourceLongitude");
+
+                    b.Property<int?>("WelperInvoiceItemId");
+
+                    b.Property<string>("WelperProfileId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientInvoiceItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.HasIndex("WelperInvoiceItemId")
+                        .IsUnique();
+
+                    b.HasIndex("WelperProfileId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.OrderStateHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("OrderItemId");
+
+                    b.Property<int>("State");
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderItemId");
+
+                    b.ToTable("OrderStates");
+                });
+
             modelBuilder.Entity("Welp.Web.Models.Profile", b =>
                 {
                     b.Property<string>("Id");
@@ -248,6 +514,12 @@ namespace Welp.Web.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .HasAnnotation("MaxLength", 150);
+
+                    b.Property<double>("LastKnownLatitude");
+
+                    b.Property<double>("LastKnownLongitude");
+
+                    b.Property<DateTime>("LastKnownTimestamp");
 
                     b.Property<string>("LastName")
                         .HasAnnotation("MaxLength", 150);
@@ -276,6 +548,110 @@ namespace Welp.Web.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TagLines");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClientAccount");
+
+                    b.Property<string>("ClientAddress")
+                        .IsRequired();
+
+                    b.Property<string>("ClientBank");
+
+                    b.Property<string>("ClientContact")
+                        .IsRequired();
+
+                    b.Property<int>("ClientLocalityId");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired();
+
+                    b.Property<string>("ClientRegistrationNo");
+
+                    b.Property<string>("ClientTaxCode");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<DateTime>("DueDate");
+
+                    b.Property<int>("InvoiceDataId");
+
+                    b.Property<int>("LastState");
+
+                    b.Property<int?>("ReverseInvoiceId");
+
+                    b.Property<decimal>("TotalGross");
+
+                    b.Property<decimal>("TotalNet");
+
+                    b.Property<decimal>("TotalVAT");
+
+                    b.Property<bool>("VATFree");
+
+                    b.Property<bool>("VATOnCash");
+
+                    b.Property<string>("WelperId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientLocalityId");
+
+                    b.HasIndex("InvoiceDataId");
+
+                    b.HasIndex("ReverseInvoiceId");
+
+                    b.HasIndex("WelperId");
+
+                    b.ToTable("WelperInvoices");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoiceItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<decimal>("Gross");
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<decimal>("Net");
+
+                    b.Property<int>("OrderItemId");
+
+                    b.Property<decimal>("VAT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("OrderItemId");
+
+                    b.ToTable("WelperInvoiceItems");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoiceStateHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("InvoiceId");
+
+                    b.Property<int>("State");
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("WelperInvoiceStates");
                 });
 
             modelBuilder.Entity("Welp.Web.Models.WelpService", b =>
@@ -432,7 +808,7 @@ namespace Welp.Web.Data.Migrations
             modelBuilder.Entity("Welp.Web.Models.Address", b =>
                 {
                     b.HasOne("Welp.Web.Models.Locality", "Locality")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("LocalityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -441,11 +817,153 @@ namespace Welp.Web.Data.Migrations
                         .HasForeignKey("ProfileId");
                 });
 
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoice", b =>
+                {
+                    b.HasOne("Welp.Web.Models.Profile", "Client")
+                        .WithMany("ClientInvoices")
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("Welp.Web.Models.InvoiceData", "InvoiceData")
+                        .WithMany()
+                        .HasForeignKey("InvoiceDataId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.Locality", "ProviderLocality")
+                        .WithMany("ClientInvoices")
+                        .HasForeignKey("ProviderLocalityId");
+
+                    b.HasOne("Welp.Web.Models.ClientInvoice", "ReverseInvoice")
+                        .WithMany()
+                        .HasForeignKey("ReverseInvoiceId");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoiceItem", b =>
+                {
+                    b.HasOne("Welp.Web.Models.ClientInvoice", "Invoice")
+                        .WithMany("InvoiceItems")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.OrderItem", "OrderItem")
+                        .WithOne()
+                        .HasForeignKey("Welp.Web.Models.ClientInvoiceItem", "OrderItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.ClientInvoiceStateHistory", b =>
+                {
+                    b.HasOne("Welp.Web.Models.ClientInvoice", "Invoice")
+                        .WithMany("History")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.FAQ", b =>
+                {
+                    b.HasOne("Welp.Web.Models.FAQCategory", "Category")
+                        .WithMany("FAQs")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.InvoiceData", b =>
+                {
+                    b.HasOne("Welp.Web.Models.Locality", "Locality")
+                        .WithMany()
+                        .HasForeignKey("LocalityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.Profile", "Profile")
+                        .WithMany("InvoiceDatas")
+                        .HasForeignKey("ProfileId");
+                });
+
             modelBuilder.Entity("Welp.Web.Models.Locality", b =>
                 {
                     b.HasOne("Welp.Web.Models.County", "County")
                         .WithMany("Localities")
                         .HasForeignKey("CountyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.Order", b =>
+                {
+                    b.HasOne("Welp.Web.Models.Profile", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.OrderItem", b =>
+                {
+                    b.HasOne("Welp.Web.Models.ClientInvoiceItem", "ClientInvoiceItem")
+                        .WithMany()
+                        .HasForeignKey("ClientInvoiceItemId");
+
+                    b.HasOne("Welp.Web.Models.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.Profile")
+                        .WithMany("Jobs")
+                        .HasForeignKey("ProfileId");
+
+                    b.HasOne("Welp.Web.Models.WelperInvoiceItem", "WelperInvoiceItem")
+                        .WithOne()
+                        .HasForeignKey("Welp.Web.Models.OrderItem", "WelperInvoiceItemId");
+
+                    b.HasOne("Welp.Web.Models.Profile", "Welper")
+                        .WithMany()
+                        .HasForeignKey("WelperProfileId");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.OrderStateHistory", b =>
+                {
+                    b.HasOne("Welp.Web.Models.OrderItem", "OrderItem")
+                        .WithMany("History")
+                        .HasForeignKey("OrderItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoice", b =>
+                {
+                    b.HasOne("Welp.Web.Models.Locality", "ClientLocality")
+                        .WithMany("WelperInvoices")
+                        .HasForeignKey("ClientLocalityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.InvoiceData", "InvoiceData")
+                        .WithMany()
+                        .HasForeignKey("InvoiceDataId");
+
+                    b.HasOne("Welp.Web.Models.WelperInvoice", "ReverseInvoice")
+                        .WithMany()
+                        .HasForeignKey("ReverseInvoiceId");
+
+                    b.HasOne("Welp.Web.Models.Profile", "Welper")
+                        .WithMany("WelperInvoices")
+                        .HasForeignKey("WelperId");
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoiceItem", b =>
+                {
+                    b.HasOne("Welp.Web.Models.WelperInvoice", "Invoice")
+                        .WithMany("InvoiceItems")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Welp.Web.Models.OrderItem", "OrderItem")
+                        .WithMany()
+                        .HasForeignKey("OrderItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Welp.Web.Models.WelperInvoiceStateHistory", b =>
+                {
+                    b.HasOne("Welp.Web.Models.WelperInvoice", "Invoice")
+                        .WithMany("History")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
