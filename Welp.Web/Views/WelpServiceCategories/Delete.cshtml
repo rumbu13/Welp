@@ -1,0 +1,67 @@
+﻿@model Welp.Web.Models.WelpServiceCategory
+
+@{
+    ViewData["Title"] = "Ștergere categorie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ștergere categorie</h2>
+
+<h3>Sigur vrei să ștergi această categorie?</h3>
+<div>
+    <h4>Categorie de servicii</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd>
+            <strong>@Html.DisplayFor(model => model.Text)</strong>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SmallIcon)
+        </dt>
+        <dd>
+            <img src="/@Model.SmallIcon" height="64" />@Model.SmallIcon
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MediumIcon)
+        </dt>
+        <dd>
+            <img src="/@Model.MediumIcon" height="64" />@Model.MediumIcon
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LargeIcon)
+        </dt>
+        <dd>
+            <img src="/@Model.LargeIcon" height="64" />@Model.LargeIcon
+        </dd>
+    </dl>
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button class="close" data-dismiss="alert">&times;</button>
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <span class="sr-only">Info:</span>
+        Această operațiune va șterge numai categoria din baza de date, nu și imaginile asociate
+    </div>
+    @if (ViewBag.HasServices)
+    {
+        <div class="alert alert-danger" role="alert">
+
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Eroare:</span>
+            Această categorie nu poate fi ștearsă fiindcă conține unul sau mai multe servicii. Șterge mai întâi serviciile asociate
+        </div>
+    }
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+
+        @if (!ViewBag.HasServices)
+        { 
+            @Html.Raw("<input type=\"submit\" value=\"Șterge\" class=\"btn btn-default\" /> |"); 
+        }
+            
+
+            <a asp-action="Index">Înapoi la lista de categorii</a>
+        </div>
+    </form>
+</div>

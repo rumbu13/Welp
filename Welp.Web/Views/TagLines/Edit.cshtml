@@ -1,0 +1,47 @@
+﻿
+@model Welp.Web.Models.TagLine
+
+
+@{
+    ViewData["Title"] = "Modifică un slogan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modifică un slogan</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Slogan</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Text" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Probability" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Probability" class="form-control" type="range" min="1" max="100" />
+                <span asp-validation-for="Probability" class="text-danger" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvează" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Înapoi la lista cu sloganuri</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

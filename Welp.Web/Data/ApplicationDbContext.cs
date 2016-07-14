@@ -14,8 +14,10 @@ namespace Welp.Web.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+           
         }
 
+        public ApplicationDbContext() : base() { }
 
         public DbSet<TagLine> TagLines { get; set; }
         public DbSet<WelpService> Services { get; set; }
@@ -251,6 +253,8 @@ namespace Welp.Web.Data
             SaveChanges();
             SeedFAQs();
             SaveChanges();
+            SeedServices();
+            SaveChanges();
         }
 
         public void SeedTagLines()
@@ -394,6 +398,7 @@ namespace Welp.Web.Data
                 var service = new WelpService()
                 {
                     Title = "Reparație calculator și asistență",
+                    Text = "Un text",
                     Description = "Dacă calculatorul tău este blocat, o aplicație refuză să pornească sau hard-disk-ul tău dă semne de oboseală, suntem gata să rezolvăm problema",
                     Category = category,
                     IncludedPrestations = String.Join(Environment.NewLine,
@@ -405,6 +410,7 @@ namespace Welp.Web.Data
                     CanBePerformedOnline = true                                
                 };
 
+                service.Options = new List<WelpServiceOption>();
                 //optiune checkbox
                 service.Options.Add(new WelpServiceOption()
                 {
@@ -479,6 +485,8 @@ namespace Welp.Web.Data
                     Description = "Precizați tipul de calculator",
                 });
 
+                opt.DropDownItems = new List<WelpServiceOptionDropItem>();
+
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Stație de lucru" });
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Laptop", IncreaseOrDecreaseFixed = 10});
 
@@ -491,6 +499,8 @@ namespace Welp.Web.Data
                     Text = "Ce sistem de operare aveți",
                     Description = "Precizați sistemul de operare",
                 });
+
+                opt.DropDownItems = new List<WelpServiceOptionDropItem>();
 
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Windows" });
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "OS X" });
@@ -516,6 +526,7 @@ namespace Welp.Web.Data
                 service = new WelpService()
                 {
                     Title = "Optimizare",
+                    Text = "Un text",
                     Description = "Nimic nu este mai enervant decât un calculator care merge încet. Chiar și calculatoarele mai noi adună în timp fișiere inutile și aplicații nefolosite.",
                     Category = category,
                     IncludedPrestations = String.Join(Environment.NewLine,
@@ -526,6 +537,8 @@ namespace Welp.Web.Data
                     OnlineDiscount = 10,
                     CanBePerformedOnline = true
                 };
+
+                service.Options = new List<WelpServiceOption>();
 
                 //optiune checkbox
                 service.Options.Add(new WelpServiceOption()
@@ -581,6 +594,8 @@ namespace Welp.Web.Data
                     Description = "Precizați tipul de calculator",
                 });
 
+                opt.DropDownItems = new List<WelpServiceOptionDropItem>();
+
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Stație de lucru" });
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Laptop", IncreaseOrDecreaseFixed = 10 });
 
@@ -593,6 +608,8 @@ namespace Welp.Web.Data
                     Text = "Ce sistem de operare aveți",
                     Description = "Precizați sistemul de operare",
                 });
+
+                opt.DropDownItems = new List<WelpServiceOptionDropItem>();
 
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "Windows" });
                 opt.DropDownItems.Add(new WelpServiceOptionDropItem() { Text = "OS X" });
@@ -640,7 +657,8 @@ namespace Welp.Web.Data
                 {
                     Category = category,
                     Question = "Cum îmi actualizez datele din cont?",
-                    Answer = "Apăsați pe numele dvs. în colțul din dreapta sus."
+                    Answer = "Apăsați pe numele dvs. în colțul din dreapta sus.",
+                    Type = FAQType.Both,
                 });
 
                 FAQs.Add(new FAQ()

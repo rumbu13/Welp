@@ -1,0 +1,9 @@
+﻿<environment names="Development">
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+</environment>
+<environment names="Staging,Production">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/base/jquery-ui.min.css"
+           asp-fallback-href="~/lib/jquery-ui/themes/base/jquery-ui.css"
+           asp-fallback-test-class="ui-helper-hidden" asp-fallback-test-property="display" asp-fallback-test-value="none" />
+
+</environment>

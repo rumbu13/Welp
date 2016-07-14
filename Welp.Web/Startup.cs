@@ -15,7 +15,7 @@ using Welp.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Welp.Web.Helpers;
 using Microsoft.Extensions.Options;
-using NonFactors.Mvc.Grid;
+using Sakura.AspNetCore.Mvc;
 
 namespace Welp.Web
 { 
@@ -80,7 +80,14 @@ namespace Welp.Web
             services.AddTransient<IToolsService, ToolsService>();
             services.AddTransient<IUserManagerService, UserManagerService>();
 
-            
+            services.AddTransient<ServerContext, ServerContext>();
+
+            services.AddBootstrapPagerGenerator(options =>
+            {
+                options.ConfigureDefault();
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +122,7 @@ namespace Welp.Web
 
             app.UseTwitterAuthentication(new TwitterOptions()
             {
-                ConsumerKey= Configuration.GetValue<string>("TwitterData:ConsumerKey"),
+                ConsumerKey = Configuration.GetValue<string>("TwitterData:ConsumerKey"),
                 ConsumerSecret = Configuration.GetValue<string>("TwitterData:ConsumerSecret"),
             });
 
@@ -125,8 +132,8 @@ namespace Welp.Web
                 ClientSecret = Configuration.GetValue<string>("MicrosoftData:ClientSecret"),
             });
 
-           
-        
+
+
 
             app.UseIdentity();
 

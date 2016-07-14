@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Welp.Web.Models.WelpServiceCategory>
+
+
+@{
+    ViewData["Title"] = "Categorii de servicii";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Categorii de servicii</h2>
+
+<p roles="admin">
+    <a asp-action="Create">Adaugă o categorie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SmallIcon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediumIcon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LargeIcon)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                <a href="@item.SmallIcon" title="@item.SmallIcon"> <img src="@item.SmallIcon" height="64" /></a>
+            </td>
+            <td>
+                <a href="@item.MediumIcon" title="@item.MediumIcon"> <img src="@item.MediumIcon" height="64" /></a>
+            </td>
+            <td>
+                <a href="@item.LargeIcon" title="@item.LargeIcon"> <img src="@item.LargeIcon" height="64" /></a>
+            </td>
+            
+            <td>
+                <a roles="admin" asp-action="Edit" asp-route-id="@item.Id">Modifică</a> |
+                <a roles="admin, manager" asp-action="Details" asp-route-id="@item.Id">Detalii</a> |
+                <a roles="admin" asp-action="Delete" asp-route-id="@item.Id">Șterge</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+

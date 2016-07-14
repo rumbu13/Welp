@@ -33,7 +33,7 @@ namespace Welp.Web.Models
         public WelpServiceCategory Category { get; set; }
 
         [Required(ErrorMessage = "Prețul serviciului este obligatoriu")]
-        [DisplayFormat(DataFormatString = "{0:F2")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         [Display(Name = "Preț", Description = "Prețul serviciului")]
         public decimal Price { get; set; }
 
@@ -41,7 +41,7 @@ namespace Welp.Web.Models
         public bool CanBePerformedOnline { get; set; }
 
         [Display(Name = "Discount la distanță", Description = "Reducere de preț pentru prestarea serviciului la distanță")]
-        [DisplayFormat(DataFormatString = "{0:F2")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public decimal OnlineDiscount { get; set; }
         
         [Display(Name = "Iconiță mică", Description = "Numele fișierului care reprezintă iconița de mărime mică")]

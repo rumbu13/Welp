@@ -1,0 +1,113 @@
+@model Welp.Web.Models.WelpService
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>WelpService</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="CanBePerformedOnline" />
+                    <label asp-for="CanBePerformedOnline"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IncludedPrestations" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="IncludedPrestations" class="form-control" />
+                <span asp-validation-for="IncludedPrestations" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LargeIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LargeIcon" class="form-control" />
+                <span asp-validation-for="LargeIcon" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MediumIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MediumIcon" class="form-control" />
+                <span asp-validation-for="MediumIcon" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OnlineDiscount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OnlineDiscount" class="form-control" />
+                <span asp-validation-for="OnlineDiscount" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="SmallIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SmallIcon" class="form-control" />
+                <span asp-validation-for="SmallIcon" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="StandardDuration" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="StandardDuration" class="form-control" />
+                <span asp-validation-for="StandardDuration" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Text" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="WelpServiceCategoryId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="WelpServiceCategoryId" class ="form-control" asp-items="ViewBag.WelpServiceCategoryId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

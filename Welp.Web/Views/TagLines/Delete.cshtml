@@ -1,0 +1,37 @@
+﻿@model Welp.Web.Models.TagLine
+
+@using Welp.Web.Helpers
+
+@{
+    ViewData["Title"] = "Șterge un slogan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Șterge un slogan</h2>
+
+<h3>Ești sigur că dorești să ștergi acest slogan?</h3>
+<div>
+    <h4>Slogan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Probability)
+        </dt>
+        <dd>
+            @Html.ProgressBarFor(model => model.Probability, 0, 100)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Șterge" class="btn btn-default" /> |
+            <a asp-action="Index">Înapoi la lista cu sloganuri</a>
+        </div>
+    </form>
+</div>

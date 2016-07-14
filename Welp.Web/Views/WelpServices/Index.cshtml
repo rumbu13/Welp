@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Welp.Web.Models.WelpService>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Servicii</h2>
+
+<p>
+    <a asp-action="Create">Adaugă un serviciu</a>
+</p>
+
+<div class="row">
+    @foreach(var service in Model)
+    {
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                     <h4>
+                         @if (service.CanBePerformedOnline)
+                         {
+                            <span style="float:right;" class="text-right glyphicon glyphicon-globe"></span>
+                         }
+                         else
+                         {
+                            <span style="float:right;" class="text-right glyphicon glyphicon-home"></span>
+                         }
+                         @service.Title
+                     </h4>
+                </div>
+                <div class="panel-body">
+                    <div><span class="label label-primary">@service.Category.Text</span></div>
+                    <div>@service.Description</div>
+                </div>
+                <div class="panel-footer">
+                    <a roles="admin" asp-action="Edit" asp-route-id="@service.Id">Modifică</a> |
+                    <a roles="admin, manager" asp-action="Details" asp-route-id="@service.Id">Detalii</a> |
+                    <a roles="admin" asp-action="Delete" asp-route-id="@service.Id">Șterge</a>
+                    <span style="float:right;" class="text-right badge">@service.Price.ToString("F0") lei</span>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

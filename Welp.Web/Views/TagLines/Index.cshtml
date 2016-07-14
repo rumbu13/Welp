@@ -1,0 +1,75 @@
+﻿@model Sakura.AspNetCore.IPagedList<Welp.Web.Models.TagLine>
+
+@using Welp.Web.Helpers
+
+@{
+    ViewData["Title"] = "Sloganuri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Sloganuri</h2>
+
+<p roles="admin">
+    <a asp-action="Create">Adaugă un slogan</a>
+</p>
+
+@using (Html.BeginForm("Index", "TagLines", FormMethod.Get))
+{
+    <p>
+        Filtru: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Caută" />
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Text", "Index", new { sortOrder = ViewBag.TextSortParam, searchString = ViewBag.SearchString })
+                @if (ViewBag.SortParam == "text_desc")
+                {
+                    <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                }
+                else if (ViewBag.SortParam == "text_asc")
+                {
+                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                }
+            </th>
+            <th>
+                @Html.ActionLink("Probabilitate", "Index", new { sortOrder = ViewBag.ProbSortParam, searchString = ViewBag.SearchString })
+                @if (ViewBag.SortParam == "prob_desc")
+                {
+                    <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                }
+                else if (ViewBag.SortParam == "prob_asc")
+                {
+                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                }
+            </th>
+            <th roles="admin"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.ProgressBarFor(modelItem => item.Probability, 0, 100)
+            </td>
+
+            <td roles="admin">
+                <a asp-action="Edit" asp-route-id="@item.Id">Modifică</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Șterge</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<pager/>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,45 @@
+﻿@model Welp.Web.Models.WelpServiceCategory
+
+@{
+    ViewData["Title"] = "Detalii";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalii</h2>
+
+<div>
+    <h4>Categorie de servicii</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd>
+            <strong>@Html.DisplayFor(model => model.Text)</strong>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SmallIcon)
+        </dt>
+        <dd>
+            <a href="/@Model.SmallIcon" title="@Model.SmallIcon"><img src="/@Model.SmallIcon" height="64" />@Model.SmallIcon</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MediumIcon)
+        </dt>
+        <dd>
+            <a href="/@Model.MediumIcon" title="@Model.MediumIcon"><img src="/@Model.MediumIcon" height="64" />@Model.MediumIcon</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LargeIcon)
+        </dt>
+        <dd>
+            <a href="/@Model.LargeIcon" title="@Model.LargeIcon"><img src="/@Model.LargeIcon" height="64" />@Model.LargeIcon</a>
+        </dd>
+        
+        
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Modifică</a> |
+    <a asp-action="Index">Înapoi la lista de categorii</a>
+</div>

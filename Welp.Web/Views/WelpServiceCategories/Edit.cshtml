@@ -1,0 +1,177 @@
+﻿@model Welp.Web.Models.WelpServiceCategory
+
+@{
+    ViewData["Title"] = "Modifică o categorie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    @{await Html.RenderPartialAsync("_JQueryUIStylesPartial");}
+}
+
+<h2>Modifică o categorie</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Categorie de servicii</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Text" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            
+            <label asp-for="SmallIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SmallIcon" class="form-control" />
+                <span asp-validation-for="SmallIcon" class="text-danger" />
+                <a id="@Html.IdFor(m => m.SmallIcon)-a" href="/@Model.SmallIcon" title="/@Model.SmallIcon"><img id="@Html.IdFor(m => m.SmallIcon)-img" src="/@Model.SmallIcon" height="32" /></a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="MediumIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="MediumIcon" class="form-control" />
+                <span asp-validation-for="MediumIcon" class="text-danger" />
+                <a id="@Html.IdFor(m => m.MediumIcon)-a" href="/@Model.MediumIcon" title="/@Model.MediumIcon"><img id="@Html.IdFor(m => m.MediumIcon)-img" src="/@Model.MediumIcon" height="32" /></a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LargeIcon" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LargeIcon" class="form-control" />
+                <span asp-validation-for="LargeIcon" class="text-danger" />
+                <a id="@Html.IdFor(m => m.LargeIcon)-a" href="/@Model.LargeIcon" title="/@Model.LargeIcon"><img id="@Html.IdFor(m => m.LargeIcon)-img" src="/@Model.LargeIcon" height="32" /></a>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvează" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Înapoi la lista cu categorii</a>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.getElementById("@Html.IdFor(m => m.SmallIcon)").addEventListener("focusout", function () {
+            var img = document.getElementById("@Html.IdFor(m => m.SmallIcon)-img");
+            var val = document.getElementById("@Html.IdFor(m => m.SmallIcon)").value;
+            var a = document.getElementById("@Html.IdFor(m => m.SmallIcon)-a");
+            img.src = "/" + val;
+            a.title = val;
+            a.href = "/" + val;
+        });
+        document.getElementById("@Html.IdFor(m => m.MediumIcon)").addEventListener("focusout", function () {
+            var img = document.getElementById("@Html.IdFor(m => m.MediumIcon)-img");
+            var val = document.getElementById("@Html.IdFor(m => m.MediumIcon)").value;
+            var a = document.getElementById("@Html.IdFor(m => m.MediumIcon)-a");
+            img.src = "/" + val;
+            a.title = val;
+            a.href = "/" + val;
+        });
+        document.getElementById("@Html.IdFor(m => m.LargeIcon)").addEventListener("focusout", function () {
+            var img = document.getElementById("@Html.IdFor(m => m.LargeIcon)-img");
+            var val = document.getElementById("@Html.IdFor(m => m.LargeIcon)").value;
+            var a = document.getElementById("@Html.IdFor(m => m.LargeIcon)-a");
+            img.src = "/" + val;
+            a.title = val;
+            a.href = "/" + val;
+        });
+
+        
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_JQueryUIScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#SmallIcon").autocomplete({                
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/WelpServiceCategories/LookupFiles",
+                        type: "POST",
+                        dataType: "json",
+                        data: { query: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item, value: item, icon: item }
+                            }));
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "", results: function (data) { return "" }                    
+                }
+            }).data("uiAutocomplete")._renderItem = function (ul, item) {
+                return $("<li />")
+                    .data("item.autocomplete", item)
+                    .append("<a><img src='/" + item.icon + "' height='32' width='32'/>&nbsp;" + item.label + "</a>")
+                    .appendTo(ul);
+            }
+
+            $("#MediumIcon").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/WelpServiceCategories/LookupFiles",
+                        type: "POST",
+                        dataType: "json",
+                        data: { query: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item, value: item, icon: item }
+                            }));
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "", results: function (data) { return "" }
+                }
+            }).data("uiAutocomplete")._renderItem = function (ul, item) {
+                return $("<li />")
+                    .data("item.autocomplete", item)
+                    .append("<a><img src='/" + item.icon + "' height='32' width='32'/>&nbsp;" + item.label + "</a>")
+                    .appendTo(ul);
+            }
+
+            $("#LargeIcon").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/WelpServiceCategories/LookupFiles",
+                        type: "POST",
+                        dataType: "json",
+                        data: { query: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item, value: item, icon: item }
+                            }));
+                        }
+                    });
+                },
+                messages: {
+                    noResults: "", results: function (data) { return "" }
+                }
+            }).data("uiAutocomplete")._renderItem = function (ul, item) {
+                return $("<li />")
+                    .data("item.autocomplete", item)
+                    .append("<a><img src='/" + item.icon + "' height='32' width='32'/>&nbsp;" + item.label + "</a>")
+                    .appendTo(ul);
+            }
+            
+        });
+
+    </script>
+}

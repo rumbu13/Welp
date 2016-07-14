@@ -9,12 +9,15 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
+
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,57 +32,56 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WELP</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    
+                <ul class="nav navbar-nav">           
+                    <li class="dropdown" roles="admin, manager">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Date<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="TagLines" asp-action="">Sloganuri</a></li>
+                            <li><a asp-area="" asp-controller="WelpServiceCategories" asp-action="">Categorii servicii</a></li>
+                            <li><a asp-area="" asp-controller="WelpServices" asp-action="">Servicii</a></li>
+                            <li><a asp-area="" asp-controller="Counties" asp-action="">Județe</a></li>
+                            <li><a asp-area="" asp-controller="Localities" asp-action="">Localități</a></li>
+                        </ul>
+                    </li>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
+                    <li class="dropdown" roles="admin, manager">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilizatori<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Clients" asp-action="">Clienți</a></li>
+                            <li><a asp-area="" asp-controller="Welpers" asp-action="">Tehnicieni</a></li>
+                            <li><a asp-area="" asp-controller="OtherUsers" asp-action="">Alte categorii</a></li>
+                        </ul>
+                    </li>
 
-                        @if (User.IsInRole("admin")) {
+                    <li class="dropdown" roles="admin, manager">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comenzi<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">În așteptare</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">În desfășurare</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Finalizate</a></li>
+                        </ul>
+                    </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Date<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="TagLines" asp-action="">Motto-uri</a></li>
-                                    <li><a asp-area="" asp-controller="ServiceCategories" asp-action="">Categorii servicii</a></li>
-                                    <li><a asp-area="" asp-controller="Services" asp-action="">Servicii</a></li>
-                                    <li><a asp-area="" asp-controller="Counties" asp-action="">Județe</a></li>
-                                    <li><a asp-area="" asp-controller="Localities" asp-action="">Localități</a></li>
-                                </ul>
-                            </li>
+                    <li class="dropdown" roles="admin, manager">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Analiză<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li ><a asp-area="" asp-controller="Orders" asp-action="">Panou de control</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Cash flow</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi emise</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi primite</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Top servicii</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Top clienți</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Top tehnicieni</a></li>
+                        </ul>
+                    </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utilizatori<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Clients" asp-action="">Clienți</a></li>
-                                    <li><a asp-area="" asp-controller="Welpers" asp-action="">Tehnicieni</a></li>
-                                    <li><a asp-area="" asp-controller="OtherUsers" asp-action="">Alte categorii</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Comenzi<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">În așteptare</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">În desfășurare</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Finalizate</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Analiză<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Panou de control</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Cash flow</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi emise</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Facturi primite</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top servicii</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top clienți</a></li>
-                                    <li><a asp-area="" asp-controller="Orders" asp-action="">Top tehnicieni</a></li>
-                                </ul>
-                            </li>
-                        }
-                    }
+                    <li class="dropdown" roles="admin">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrare<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Meniu 1</a></li>
+                            <li><a asp-area="" asp-controller="Orders" asp-action="">Meniu 2</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 
                 @await Html.PartialAsync("_LoginPartial")
@@ -103,6 +105,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
+
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
@@ -112,8 +115,11 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
+        
+
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
 
     @RenderSection("scripts", required: false)
 </body>

@@ -1,5 +1,5 @@
 ﻿@using Welp.Web.Helpers
-
+@addTagHelper "Welp.Web.Helpers.*, Welp.Web"
 
 @inject IToolsService ToolsService
 
@@ -111,6 +111,27 @@
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
     </div>
+    <div class="col-md-3">
+        <h2>Run & Deploy</h2>
+        <ul>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h2>Run & Deploy</h2>
+        <ul>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
+            <li><a href="http://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
+        </ul>
+    </div>
     <p>@ToolsService.Greeting</p>
     <p>@ToolsService.RandomTagLine</p>
+    <p Authorize="true">When logged in</p>
+    <p Authorize="false">When logged out</p>
+    <p Roles="admin">For admin eyes only</p>
+    <p Roles="manager">For manager eyes only</p>
+    <p Roles="admin, manager">For admins and managers</p>
 </div>
